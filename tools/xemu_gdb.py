@@ -1,4 +1,4 @@
-"""Poke/read GTA SA (Xbox USA Rev 1; add --rev0 for Rev 0) state in xemu through its GDB stub (start xemu with -s, port 1234).
+"""Poke/read GTA SA (Xbox USA Rev 1; add --rev0 for USA Rev 0, --eu1 / --eu0 for Europe Rev 1 / Rev 0) state in xemu through its GDB stub (start xemu with -s, port 1234).
 
 Usage:
   py tools/xemu_gdb.py clock <hour> <minute>        set + freeze the clock
@@ -11,6 +11,7 @@ Usage:
   py tools/xemu_gdb.py capture <out.png>            PrintWindow of the xemu window (works when covered), 2x box-reduced
   py tools/xemu_gdb.py --cxbx <command ...>         same commands on Cxbx-Reloaded via process memory (no filterargs)
   py tools/xemu_gdb.py --rev0 <command ...>         same commands for the USA Rev 0 default.xbe
+  py tools/xemu_gdb.py --eu1|--eu0 <command ...>    same commands for the Europe Rev 1 / Rev 0 default.xbe
   py tools/xemu_gdb.py --selftest
 
 QEMU halts the guest while GDB is attached; every command detaches at the end, which resumes it.
@@ -40,6 +41,28 @@ if "--rev0" in sys.argv:               # USA Rev 0: same build, data at -0x240 (
     COLOURFILTER_CALL = 0x24C826
     TIME_SCALE = 0x56B76C
     IDLECAM_KICKIN = 0x6C5030             # gIdleCam 0x6C5008 +0x28
+elif "--eu1" in sys.argv:              # Europe Rev 1: data at +0x60 (proven by tools/rev0_map.py, xref; idle cam via its base)
+    sys.argv.remove("--eu1")
+    CLOCK_SECONDS, CLOCK_MINUTES, CLOCK_HOURS = 0x55F43C, 0x55F43E, 0x55F43F
+    MS_PER_GAME_MINUTE = 0x55F448
+    WEATHER_FORCED, WEATHER_NEW, WEATHER_OLD = 0x5E6354, 0x5E6358, 0x5E635C
+    POSTFX_DISABLE = 0x5F4B7F
+    POSTFX_COLOURS = 0x6C8918
+    PLAYERS = 0x6C8F78
+    COLOURFILTER_CALL = 0x24CA12
+    TIME_SCALE = 0x56BA0C
+    IDLECAM_KICKIN = 0x6C52D0             # gIdleCam 0x6C52A8 +0x28
+elif "--eu0" in sys.argv:              # Europe Rev 0: data at -0x1E0 (proven by tools/rev0_map.py, xref; idle cam via its base)
+    sys.argv.remove("--eu0")
+    CLOCK_SECONDS, CLOCK_MINUTES, CLOCK_HOURS = 0x55F1FC, 0x55F1FE, 0x55F1FF
+    MS_PER_GAME_MINUTE = 0x55F208
+    WEATHER_FORCED, WEATHER_NEW, WEATHER_OLD = 0x5E6114, 0x5E6118, 0x5E611C
+    POSTFX_DISABLE = 0x5F493F
+    POSTFX_COLOURS = 0x6C86D8
+    PLAYERS = 0x6C8D38
+    COLOURFILTER_CALL = 0x24C84C
+    TIME_SCALE = 0x56B7CC
+    IDLECAM_KICKIN = 0x6C5090             # gIdleCam 0x6C5068 +0x28
 
 
 def capture(path, title_prefix="xemu |"):

@@ -31,7 +31,7 @@ from keystone import KS_ARCH_X86, KS_MODE_32, Ks
 
 G, N, KA = 0.91, 0.80, 1.80                     # findings "P4 v2 step 2"
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from rev0_map import XBE, A, write_json  # noqa: E402  (--rev0: Rev 1 VAs below are mapped to Rev 0)
+from rev0_map import XBE, A, write_json  # noqa: E402  (--rev0|--eu1|--eu0: Rev 1 VAs below are mapped)
 P_AMBIENT, RW_CUR_VS = A(0x5F4BFC), A(0x3D4750)
 BUILDING_VS_SHARED = (A(0x5F2934), A(0x5F2940))      # handles that reach the shared setup 0x16A1E5 from building pipes
 BLOCKS = ((A(0x166D91), A(0x166DE7), "ebp + 0x54", False),   # (start, end, c15 stack slot, shared -> check the VS)

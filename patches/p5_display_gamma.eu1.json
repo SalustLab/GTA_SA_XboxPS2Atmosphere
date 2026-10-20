@@ -1,0 +1,13 @@
+{
+  "xbe_sha1": "f0ed7d693c5b9b579ffef38cf40ae0efae6a71d3",
+  "name": "P5 neutral display gamma at default brightness (SetBrightness reads 0.35, not pooled 0.2)",
+  "patches": [
+    {
+      "va": "0x274712",
+      "orig_sha1": "8f6d0e798977a38f651059ac661d80dc956a3483",
+      "len": 4,
+      "new": "b40c3900",
+      "note": "addss operand at 0x27468E: [0x390A24] 0.2 -> [0x390C44] 0.35 (read-only .rdata)"
+    }
+  ]
+}

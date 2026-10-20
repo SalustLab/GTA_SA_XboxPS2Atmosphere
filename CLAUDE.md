@@ -12,10 +12,10 @@ Core finding: `timecyc.dat` and all assets are identical between the PS2 and Xbo
 
 ## Hard rules
 
-- **Never modify the originals.** Both ISOs and the extracted folders are read-only: `Microsoft - Xbox/…(Rev 1)/`, the Rev 0 Redump ISO `Microsoft - Xbox/Grand Theft Auto - San Andreas (USA) (En,Es).iso`, and `Sony - PlayStation 2/…(v3.00) (Rev 1)/`. Work only on copies under `work/`.
+- **Never modify the originals.** Both ISOs and the extracted folders are read-only: `Microsoft - Xbox/…(Rev 1)/`, the Rev 0 Redump ISO `Microsoft - Xbox/Grand Theft Auto - San Andreas (USA) (En,Es).iso`, the two Europe Redump ISOs `Microsoft - Xbox/Grand Theft Auto - San Andreas (Europe) (En,Fr,De,Es,It) [(Rev 1)].iso`, and `Sony - PlayStation 2/…(v3.00) (Rev 1)/`. Work only on copies under `work/`.
 - The originals, `work/`, `captures/` and `dist/*.xbe` are gitignored (copyrighted and huge). Never commit Rockstar bytes. Committed patch JSONs guard original bytes with `orig_sha1` instead of `orig` for this reason. A distributed mod ships only an xdelta/BPS diff plus the ini lines to change (PLAN §15).
-- The supported targets are `default.xbe` USA Rev 1, SHA1 `10EFB868F13D6944AA6684A52CAC5156393F14C5`, and USA Rev 0, SHA1 `1CEAE5BE753B3675CE8C5C79D7F496DFC0AD597D`. Per xemu-project/xdb, Rev 1 (title ID 545400A3) is the Platinum Hits / The Trilogy disc and Rev 0 (54540082) the original release. Tools must verify the hash and refuse any other input.
-- Rev 1 is the reference: every address in the docs and generators is a Rev 1 VA. Rev 0 builds come from the same generators with `--rev0` (output `patches/pN_*.rev0.json`, with `xbe_sha1`), which map each address through `tools/rev0_map.py`. Never hand-write a Rev 0 address; add it to a generator via `A()` so it gets proven. Proven pairs are cached in `patches/rev0_map.json` (delete it to re-prove).
+- The supported targets are `default.xbe` USA Rev 1, SHA1 `10EFB868F13D6944AA6684A52CAC5156393F14C5`, and USA Rev 0, SHA1 `1CEAE5BE753B3675CE8C5C79D7F496DFC0AD597D`. Per xemu-project/xdb, Rev 1 (title ID 545400A3) is the Platinum Hits / The Trilogy disc and Rev 0 (54540082) the original release. Also supported: Europe Rev 1, SHA1 `F0ED7D693C5B9B579FFEF38CF40AE0EFAE6A71D3` (title ID 545400A4), and Europe Rev 0, SHA1 `7A424B08E79A4FEBA39EC8ACF2168C6C94BC0B5A` (54540086). Tools must verify the hash and refuse any other input.
+- Rev 1 is the reference: every address in the docs and generators is a Rev 1 VA. Rev 0 builds come from the same generators with `--rev0` (output `patches/pN_*.rev0.json`, with `xbe_sha1`), Europe builds with `--eu1` / `--eu0` (`.eu1.json` / `.eu0.json`); each address is mapped through `tools/rev0_map.py`. Never hand-write a non-Rev 1 address; add it to a generator via `A()` so it gets proven. Proven pairs are cached per target in `patches/rev0_map.json`, `eu1_map.json` and `eu0_map.json` (delete one to re-prove).
 - Label claims with the evidence legend from PLAN.md:
   - **[C]** confirmed from bytes or source;
   - **[S]** strongly inferred;
@@ -45,7 +45,7 @@ There is no build system, linter or test suite. Each script has an assert-based 
 | `tools/xbe_patch.py <in.xbe> <out.xbe> <patch.json…>` | Applies patch JSONs. Refuses a wrong input SHA1, BSS targets, overlaps, and any original-byte mismatch. Also refuses to overwrite its input or to write into the originals. |
 | `tools/predict_filter.py` | Expected PS2 or Xbox colour-filter output for a postfx-off frame plus c1/c2. |
 | `tools/compare.py captures/<scene>` | PLAN §16 metrics. The reference is `ps2.png` and every other `*.png` is a variant. Writes `metrics.json` and `_diff_*.png`. Files starting with `_` are ignored as inputs. |
-| `tools/xemu_gdb.py <cmd>` | Live Xbox pokes and captures through the xemu GDB stub (port 1234): `clock`, `weather`, `postfx`, `filter`, `teleport`, `timescale`, `idlecam`, `capture`. Add `--cxbx` to target Cxbx-Reloaded, `--rev0` for the Rev 0 game. |
+| `tools/xemu_gdb.py <cmd>` | Live Xbox pokes and captures through the xemu GDB stub (port 1234): `clock`, `weather`, `postfx`, `filter`, `teleport`, `timescale`, `idlecam`, `capture`. Add `--cxbx` to target Cxbx-Reloaded, `--rev0` for the Rev 0 game, `--eu1` / `--eu0` for Europe. |
 | `tools/rev0_map.py <rev1.xbe> <rev0.xbe> <va>…` | Rev 1 → Rev 0 address map, proven by code alignment, agreeing references, or caller/function proofs. Also the `--rev0` helpers the generators import. |
 | `tools/pcsx2_pine.py <cmd>` | The same for PS2 through PCSX2 PINE (port 28011). |
 | `tools/ps2_cheats.pnach` | Alternative PS2 clock and weather freeze. Install instructions are in its header. |
@@ -54,8 +54,9 @@ There is no build system, linter or test suite. Each script has an assert-based 
 
 1. Each patch is authored as a generator script, `patches/pN_*.py`. It holds keystone assembly, reads `work/xbox/default.xbe`, and writes `patches/pN_*.json` with `orig_sha1` guards. Example: `py patches/p1_colourfilter.py`.
 2. Apply it: `py tools/xbe_patch.py work/xbox/default.xbe dist/default_pN.xbe patches/pN_*.json`.
-3. Boot test: copy `work/xbox/gtasa_stock.xiso` and replace the embedded `default.xbe` in place. It sits at sector 348678, is 4018176 bytes, and keeps the same size. Rev 0: `work/xbox_rev0/gtasa_stock.xiso`, XBE at sector 348552 (same size). The Redump ISO doesn't boot in xemu. `gtasa_stock.xiso` is its game partition, from offset `0x18300000` to the end.
+3. Boot test: copy `work/xbox/gtasa_stock.xiso` and replace the embedded `default.xbe` in place. It sits at sector 348678, is 4018176 bytes, and keeps the same size. Rev 0: `work/xbox_rev0/gtasa_stock.xiso`, XBE at sector 348552 (same size). Europe Rev 1 / Rev 0: `work/xbox_eu1/` sector 347516, `work/xbox_eu0/` sector 347390 (same size). The Redump ISO doesn't boot in xemu. `gtasa_stock.xiso` is its game partition, from offset `0x18300000` to the end.
 4. Before editing a patch, test it as a live RAM poke in xemu (E4 style).
+5. **Region check:** each build's own `main` quits silently to the dashboard unless `XGetGameRegion()` (the EEPROM game region, not the XBE certificate and not the BIOS) matches. USA builds want 1, Europe builds want 4, so stock Europe images fall back on this box's NA EEPROM, in xemu and on the user's Xbox. To boot-test Europe without touching the shared EEPROM, use a test-only build that NOPs the 6-byte `jne` after `call XGetGameRegion; cmp eax, 4`: EU Rev 0 call at 0x273B14, EU Rev 1 at 0x273D0A, `jne` at call + 8. Since v1.3 the Europe release ships this as **P8** (`patches/p8_eu_regionfree.py`, `--eu1` / `--eu0` only); the USA builds keep their check (findings "Europe Rev 1 / Rev 0 port").
 
 ## Captures and experiments
 

@@ -1,0 +1,13 @@
+{
+  "xbe_sha1": "f0ed7d693c5b9b579ffef38cf40ae0efae6a71d3",
+  "name": "P8 Europe region-free (the game's XGetGameRegion() == 4 check after camera init is dropped)",
+  "patches": [
+    {
+      "va": "0x273d12",
+      "orig_sha1": "58e11552d4d0660be0e985bd15ff407b39c3b415",
+      "len": 6,
+      "new": "909090909090",
+      "note": "main: call XGetGameRegion; cmp eax, 4; jne exit -> NOP the jne (Rev 1 site 0x273CD6)"
+    }
+  ]
+}

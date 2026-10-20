@@ -1,0 +1,41 @@
+{
+  "xbe_sha1": "7a424b08e79a4feba39ec8acf2168c6c94bc0b5a",
+  "name": "P4 v2 PS2 building lighting (c23 x (N 0.8, G 0.91), c15 x KA 1.8)",
+  "patches": [
+    {
+      "va": "0x166c51",
+      "orig_sha1": "94e1b22f5befec04d05455fafa8d3de017cf6ebc",
+      "len": 86,
+      "new": "8b0d1c4a5f000f1041180f28d40fc6d2000f5dc20f1145540f1015976c16000f59c20f114554eb2ecccccccccccccccccccccccccccccdcc4c3fc3f5683f00000000000000006666e63f6666e63f6666e63f0000803f",
+      "note": "c15 = min(pAmbient,1)*(1.8,1.8,1.8,1); constants (N,G,0,0),(KA,KA,KA,1) at 0x166c87"
+    },
+    {
+      "va": "0x16753b",
+      "orig_sha1": "94e1b22f5befec04d05455fafa8d3de017cf6ebc",
+      "len": 86,
+      "new": "8b0d1c4a5f000f1041180f28d40fc6d2000f5dc20f1145540f1015976c16000f59c20f114554eb2ecccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "note": "c15 = min(pAmbient,1)*(1.8,1.8,1.8,1)"
+    },
+    {
+      "va": "0x168456",
+      "orig_sha1": "7b40abd09630bc4144dc900b1d6e16fc00fab5bc",
+      "len": 86,
+      "new": "8b0d1c4a5f000f1041180f28d40fc6d2000f5dc20f1145e08b1570453d003b1554275f00740a3b1560275f007402eb0e0f1015976c16000f59c20f1145e0eb16cccccccccccccccccccccccccccccccccccccccccccc",
+      "note": "c15 = min(pAmbient,1)*(1.8,1.8,1.8,1) if RW VS is a building one"
+    },
+    {
+      "va": "0x166d0c",
+      "orig_sha1": "32361e531b8fecee36597729c1b968984510fa56",
+      "len": 41,
+      "new": "f30f100530993c000f28ccf30f5cc80f14c10f100d876c16000f59c10f1145286a77598d5528909090",
+      "note": "c23 = (b,1-b,0,0)*(0.8,0.91,0,0)"
+    },
+    {
+      "va": "0x1675f6",
+      "orig_sha1": "e887b8d361020e8390d8e17ad60f42d5a3a52647",
+      "len": 41,
+      "new": "f30f1005c49b3c000f28ccf30f5cc80f14c10f100d876c16000f59c10f1145286a77598d5528909090",
+      "note": "c23 = (b,1-b,0,0)*(0.8,0.91,0,0)"
+    }
+  ]
+}

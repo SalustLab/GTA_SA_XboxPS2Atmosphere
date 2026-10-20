@@ -1,6 +1,6 @@
-"""PS2 Atmosphere installer for GTA San Andreas (Xbox, USA Rev 1 or Rev 0).
+"""PS2 Atmosphere installer for GTA San Andreas (Xbox, USA or Europe, Rev 1 or Rev 0).
 
-Patches default.xbe with "GTA SA (USA) Rev 1/default.xbe.xdelta" or "GTA SA (USA) Rev 0/default.xbe.xdelta", picked by its SHA1.
+Patches default.xbe with "GTA SA (<region>) Rev <n>/default.xbe.xdelta" (USA or Europe, Rev 1 or Rev 0), picked by its SHA1.
 That is the whole mod: since v1.1 the PS2 stream.ini settings are built into default.xbe, so stream.ini stays
 untouched.
 
@@ -10,7 +10,7 @@ Usage:
 
 A game folder must hold default.xbe; an .iso / .xiso is patched in place.
 Either way the original is kept as *.bak first (an existing .bak is never replaced).
-Any input other than the USA Rev 1 or Rev 0 default.xbe is refused and nothing is written.
+Any input other than the USA or Europe Rev 1 or Rev 0 default.xbe is refused and nothing is written.
 """
 import glob
 import hashlib
@@ -27,6 +27,8 @@ from xdvdfs_extract import SECTOR, image_files  # noqa: E402
 XBE = {  # stock default.xbe SHA1 -> (patched SHA1, xdelta file)
     "10efb868f13d6944aa6684a52cac5156393f14c5": ("84e14eef41e0e83d7191a66973c99959815d7553", "GTA SA (USA) Rev 1/default.xbe.xdelta"),  # USA Rev 1
     "1ceae5be753b3675ce8c5c79d7f496dfc0ad597d": ("6883102c897eaa58e8e01fb41a51b9c4b44b481d", "GTA SA (USA) Rev 0/default.xbe.xdelta"),  # USA Rev 0
+    "f0ed7d693c5b9b579ffef38cf40ae0efae6a71d3": ("d4b4a593033690afcf298073e2a2eafac07eb15d", "GTA SA (Europe) Rev 1/default.xbe.xdelta"),  # Europe Rev 1
+    "7a424b08e79a4feba39ec8acf2168c6c94bc0b5a": ("acd8ea4a872186adf7e67e6f9e1aec5340bbf346", "GTA SA (Europe) Rev 0/default.xbe.xdelta"),  # Europe Rev 0
 }
 OLDER = {"2d1829b5647f05930290d6e56425a4b656b8937b": "PS2 Atmosphere v1.0"}
 
@@ -78,7 +80,7 @@ def patched(name, data, hashes, fn):
     if have in OLDER:
         raise SystemExit(f"{name} is {OLDER[have]}: put the original back (default.xbe.bak) and run again; nothing written")
     if have != stock:
-        raise SystemExit(f"{name}: SHA1 {have} is not GTA SA USA Rev 1 or Rev 0 ({', '.join(XBE)}); nothing written")
+        raise SystemExit(f"{name}: SHA1 {have} is not GTA SA USA / Europe Rev 1 or Rev 0 ({', '.join(XBE)}); nothing written")
     new = fn(data)
     if sha1(new) != mod or len(new) != len(data):
         raise SystemExit(f"{name}: patch result has SHA1 {sha1(new)}, expected {mod}; nothing written")
@@ -146,7 +148,7 @@ def selftest():
     assert pick(sha1(b"x"), {sha1(b"x"): ("m", "a.xdelta")}) == ((sha1(b"x"), "m"), "a.xdelta")
     assert pick("m", {sha1(b"x"): ("m", "a.xdelta")})[1] == "a.xdelta"               # an already-patched file
     assert pick("zz", {sha1(b"x"): ("m", "a.xdelta")}) is None                       # unknown: patched() refuses
-    assert {pick(s)[1] for s in XBE} == {"GTA SA (USA) Rev 1/default.xbe.xdelta", "GTA SA (USA) Rev 0/default.xbe.xdelta"}
+    assert {pick(s)[1] for s in XBE} == {f"GTA SA ({r}) Rev {n}/default.xbe.xdelta" for r in ("USA", "Europe") for n in (1, 0)}
     print("apply_patch selftest OK")
 
 

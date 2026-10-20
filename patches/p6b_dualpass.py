@@ -23,7 +23,7 @@ from pathlib import Path
 from keystone import Ks, KS_ARCH_X86, KS_MODE_32
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from rev0_map import SHA1, XBE, A, write_json  # noqa: E402  (--rev0: Rev 1 VAs below are mapped to Rev 0)
+from rev0_map import SHA1, XBE, A, write_json  # noqa: E402  (--rev0|--eu1|--eu0: Rev 1 VAs below are mapped)
 
 SITE, DRAW, FLUSH = A(0x16AFA3), A(0x2A0F00), A(0x2A0230)
 RS_SET, RS_GET = A(0x75DE80), A(0x75DE84)

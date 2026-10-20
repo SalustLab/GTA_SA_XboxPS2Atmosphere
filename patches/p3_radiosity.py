@@ -26,7 +26,7 @@ from pathlib import Path
 from keystone import KS_ARCH_X86, KS_MODE_32, Ks
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from rev0_map import XBE, A, write_json  # noqa: E402  (--rev0: Rev 1 VAs below are mapped to Rev 0)
+from rev0_map import XBE, A, write_json  # noqa: E402  (--rev0|--eu1|--eu0: Rev 1 VAs below are mapped)
 
 START, END = A(0x24DF8E), A(0x24E513)  # stock Radiosity, ret at 0x24E512 [C]; 0x24E513 is another function
 

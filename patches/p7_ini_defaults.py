@@ -19,7 +19,7 @@ from pathlib import Path
 from capstone import CS_ARCH_X86, CS_MODE_32, Cs
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from rev0_map import XBE, A, write_json  # noqa: E402  (--rev0: Rev 1 VAs below are mapped to Rev 0)
+from rev0_map import XBE, A, write_json  # noqa: E402  (--rev0|--eu1|--eu0: Rev 1 VAs below are mapped)
 
 TEXT = 0x10000                                   # .text file offset = VA - 0x10000 (both revisions)
 MOV_PE = lambda va: "a3" + struct.pack("<I", A(va)).hex()   # mov [va], eax

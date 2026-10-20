@@ -1,4 +1,5 @@
-"""Apply patches/*.json to a copy of GTA SA Xbox default.xbe (USA Rev 1, or Rev 0 with the *.rev0.json builds).
+"""Apply patches/*.json to a copy of GTA SA Xbox default.xbe (USA Rev 1; USA Rev 0 / Europe Rev 1 / Europe Rev 0
+with the *.rev0.json / *.eu1.json / *.eu0.json builds).
 
 Usage:
   py tools/xbe_patch.py <in.xbe> <out.xbe> <patch.json> [patch.json ...]
@@ -27,7 +28,9 @@ from pathlib import Path
 
 REV1_SHA1 = "10efb868f13d6944aa6684a52cac5156393f14c5"
 REV0_SHA1 = "1ceae5be753b3675ce8c5c79d7f496dfc0ad597d"
-TARGETS = {REV1_SHA1: "USA Rev 1", REV0_SHA1: "USA Rev 0"}
+EU1_SHA1 = "f0ed7d693c5b9b579ffef38cf40ae0efae6a71d3"
+EU0_SHA1 = "7a424b08e79a4feba39ec8acf2168c6c94bc0b5a"
+TARGETS = {REV1_SHA1: "USA Rev 1", REV0_SHA1: "USA Rev 0", EU1_SHA1: "Europe Rev 1", EU0_SHA1: "Europe Rev 0"}
 ORIGINAL_DIRS = ("Microsoft - Xbox", "Sony - PlayStation 2")
 
 
@@ -58,7 +61,7 @@ def check_requires(docs):
 
 
 def target_sha1(docs):
-    """The one input SHA1 all patch files were built for: "xbe_sha1" (Rev 0 builds), absent = Rev 1."""
+    """The one input SHA1 all patch files were built for: "xbe_sha1" (non-Rev 1 builds), absent = Rev 1."""
     want = {j.get("xbe_sha1", REV1_SHA1).lower() for _, j in docs}
     if len(want) != 1 or not want <= TARGETS.keys():
         raise ValueError(f"patch files target {sorted(want)}: all must be built for one known default.xbe")
@@ -145,7 +148,10 @@ def selftest():
         pass
     assert target_sha1([("p1", {}), ("p2", {})]) == REV1_SHA1                  # no field = Rev 1 (old JSONs)
     assert target_sha1([("p1.rev0", {"xbe_sha1": REV0_SHA1})]) == REV0_SHA1
+    assert target_sha1([("p1.eu1", {"xbe_sha1": EU1_SHA1}), ("p2.eu1", {"xbe_sha1": EU1_SHA1})]) == EU1_SHA1
     for bad in ([("p1", {}), ("p2.rev0", {"xbe_sha1": REV0_SHA1})],              # Rev 1 and Rev 0 patches mixed
+                [("p1", {}), ("p2.eu1", {"xbe_sha1": EU1_SHA1})],                # USA and Europe mixed
+                [("p1.eu1", {"xbe_sha1": EU1_SHA1}), ("p2.eu0", {"xbe_sha1": EU0_SHA1})],
                 [("x", {"xbe_sha1": "00" * 20})]):                               # unknown target
         try:
             target_sha1(bad)

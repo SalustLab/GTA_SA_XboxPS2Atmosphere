@@ -22,7 +22,7 @@ from keystone import KS_ARCH_X86, KS_MODE_32, Ks
 
 sys.path.insert(0, str(Path(__file__).parent))
 from p1_colourfilter import START as FILTER, XBE, build  # noqa: E402
-from rev0_map import REV, A, write_json  # noqa: E402  (p1 put tools/ on sys.path)
+from rev0_map import SUFFIX, A, write_json  # noqa: E402  (p1 put tools/ on sys.path)
 
 CAVE, CAVE_END = A(0x24ECAA), A(0x24EEA2)        # Xbox blur pass, ret at 0x24EEA1
 BLUR_CALL = A(0x24CC89)                       # call 0x24ECAA, the only reference to the cave [C]
@@ -57,7 +57,7 @@ def selftest():
     assert got == want, (got, want)
     offs = [i.op_str for i in ins if i.mnemonic == "fild"]
     assert offs == [f"dword ptr [{A(0x3CE808) + 4 * a:#x}]" for a in range(4)], offs
-    p1 = json.loads(Path(__file__).with_name("p1_colourfilter.json" if REV == "rev1" else "p1_colourfilter.rev0.json").read_text())["patches"][0]["new"]
+    p1 = json.loads(Path(__file__).with_name(f"p1_colourfilter{SUFFIX}.json").read_text())["patches"][0]["new"]
     assert build()[0].hex() == p1, "blur=False must keep the v0.1 P1 bytes"
     print("p2_filterblur selftest OK")
 

@@ -1,6 +1,6 @@
-"""rev0_map.py - Rev 1 -> Rev 0 address map for default.xbe (USA), proven by instruction alignment.
+"""rev0_map.py - USA Rev 1 -> USA Rev 0 / EU Rev 1 / EU Rev 0 address map for default.xbe, proven by instruction alignment.
 
-Rev 0 (sha1 1ceae5be...) is the same build as Rev 1 with small code insertions/deletions, so every Rev 1 code site
+Rev 0 (sha1 1ceae5be...) and both Europe builds are the same build as Rev 1 with small code insertions/deletions, so every Rev 1 code site
 has a Rev 0 twin at a piecewise-constant shift. The executable sections of both XBEs are disassembled and walked in
 step; two instructions pair when mnemonic + operands match with every absolute address masked. Paired instructions
 give the code map, and their absolute operands give the data map (a Rev 1 address is accepted only if all of its
@@ -20,9 +20,16 @@ from pathlib import Path
 
 from capstone import CS_ARCH_X86, CS_MODE_32, Cs
 
-KNOWN = {"10efb868f13d6944aa6684a52cac5156393f14c5": "rev1", "1ceae5be753b3675ce8c5c79d7f496dfc0ad597d": "rev0"}
 ROOT = Path(__file__).resolve().parents[1]
-XBES = {"rev1": ROOT / "work" / "xbox" / "default.xbe", "rev0": ROOT / "work" / "xbox_rev0" / "default.xbe"}
+TARGETS = {  # tag: (default.xbe sha1, work dir); Rev 1 is the reference, the others are built with --<tag>
+    "rev1": ("10efb868f13d6944aa6684a52cac5156393f14c5", "xbox"),        # USA Rev 1
+    "rev0": ("1ceae5be753b3675ce8c5c79d7f496dfc0ad597d", "xbox_rev0"),   # USA Rev 0
+    "eu1": ("f0ed7d693c5b9b579ffef38cf40ae0efae6a71d3", "xbox_eu1"),     # Europe Rev 1
+    "eu0": ("7a424b08e79a4feba39ec8acf2168c6c94bc0b5a", "xbox_eu0"),     # Europe Rev 0
+}
+KNOWN = {sha: tag for tag, (sha, _) in TARGETS.items()}
+XBES = {tag: ROOT / "work" / d / "default.xbe" for tag, (_, d) in TARGETS.items()}
+FLAGS = tuple(f"--{t}" for t in TARGETS if t != "rev1")
 HEX = re.compile(r"0x[0-9a-f]+")
 RESYNC = 16                                # min matches (of SCORE) to accept a new shift
 SCORE = 512                                # instructions scored per candidate shift
@@ -235,18 +242,19 @@ _CACHE = {}
 
 def mapper():
     if "m" not in _CACHE:
-        _CACHE["m"] = Map(XBES["rev1"].read_bytes(), XBES["rev0"].read_bytes())
+        _CACHE["m"] = Map(XBES["rev1"].read_bytes(), XBES[REV].read_bytes())
     return _CACHE["m"]
 
 
-# --- for the patch generators: `py patches/pN_*.py --rev0` builds the same patch for Rev 0 -------------------------
-REV = "rev0" if "--rev0" in sys.argv else "rev1"
+# --- for the patch generators: `py patches/pN_*.py --rev0|--eu1|--eu0` builds the same patch for that target --------
+REV = next((f[2:] for f in FLAGS if f in sys.argv), "rev1")
 XBE = XBES[REV]
-SHA1 = {v: k for k, v in KNOWN.items()}[REV]
+SHA1 = TARGETS[REV][0]
+SUFFIX = "" if REV == "rev1" else "." + REV                # patches/pN.json, pN.rev0.json, pN.eu1.json, ...
 NEAR_OK = {0x36E374, 0x36E378}   # D3D_g_RenderState fields (indexed, no direct reference); [S], checked live in xemu
 
 
-CACHE = ROOT / "patches" / "rev0_map.json"   # proven pairs (addresses only, no game bytes); delete to re-prove
+CACHE = ROOT / "patches" / f"{REV}_map.json"   # proven pairs (addresses only, no game bytes); delete to re-prove
 
 
 def A(va):
@@ -274,12 +282,12 @@ def offset(xbe, va, n=1):
 
 
 def write_json(script, doc):
-    """patches/pN.json for Rev 1 (unchanged format), patches/pN.rev0.json with an xbe_sha1 field for Rev 0."""
+    """patches/pN.json for Rev 1 (unchanged format), patches/pN.<tag>.json with an xbe_sha1 field for the others."""
     if REV != "rev1":
         doc = {"xbe_sha1": SHA1, **doc}
         if "requires" in doc:                                 # xbe_patch matches requires against file stems
-            doc["requires"] = [r + ".rev0" for r in doc["requires"]]
-    path = Path(script).with_suffix(".json" if REV == "rev1" else ".rev0.json")
+            doc["requires"] = [r + SUFFIX for r in doc["requires"]]
+    path = Path(script).with_suffix(SUFFIX + ".json")
     path.write_text(json.dumps(doc, indent=2))
     return path
 
@@ -315,6 +323,7 @@ def selftest():
         pass
     c = xbe("push ebp\n" + body.format(d=0x20000).replace("[0x20000+4]", "[0x20008]") + "ret", 0x20000)
     assert align(disasm(a), disasm(c))[2] == {} or True              # differing code just stays unpaired
+    assert FLAGS == ("--rev0", "--eu1", "--eu0") and len(KNOWN) == len(TARGETS)   # one tag per SHA1
     print("rev0_map selftest OK")
 
 

@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from rev0_map import XBE, A, offset, write_json  # noqa: E402  (--rev0: Rev 1 VAs below are mapped to Rev 0)
+from rev0_map import XBE, A, offset, write_json  # noqa: E402  (--rev0|--eu1|--eu0: Rev 1 VAs below are mapped)
 
 INSN, OLD, NEW = A(0x27468E), A(0x390A24), A(0x390C44)   # addss xmm0, dword ptr [OLD]  (F3 0F 58 05 imm32)
 STOCK, FIXED = 0.2, 0.35

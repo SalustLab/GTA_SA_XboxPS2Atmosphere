@@ -20,7 +20,7 @@ from pathlib import Path
 from keystone import KS_ARCH_X86, KS_MODE_32, Ks
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "tools"))
-from rev0_map import XBE, A, offset, write_json  # noqa: E402  (--rev0: Rev 1 VAs below are mapped to Rev 0)
+from rev0_map import FLAGS, XBE, A, offset, write_json  # noqa: E402  (--rev0|--eu1|--eu0: Rev 1 VAs below are mapped)
 
 START, END = A(0x24F007), A(0x24F133)      # original function, 300 bytes (ret at 0x24F132)
 
@@ -201,7 +201,7 @@ def build(k=1.0, blur=False, start=START, end=END):
 
 
 if __name__ == "__main__":
-    args = [a for a in sys.argv[1:] if a != "--rev0"]
+    args = [a for a in sys.argv[1:] if a not in FLAGS]
     k = float(args[0]) if args else 1.0
     new, s = build(k)
     xbe = XBE.read_bytes()

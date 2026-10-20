@@ -1,0 +1,21 @@
+{
+  "xbe_sha1": "7a424b08e79a4feba39ec8acf2168c6c94bc0b5a",
+  "name": "P6b building-pipe dual pass (PS2 alpha test: fail = colour only, no Z)",
+  "requires": [
+    "p2_filterblur.eu0"
+  ],
+  "patches": [
+    {
+      "va": "0x16ae7f",
+      "orig_sha1": "12246e5ecc5ef013f5c4f3c965d2b12ce54b2a37",
+      "new": "e8df3e0e00",
+      "note": "mesh helper 0x16AD9A: call 0x2A0F00 (flush + DrawIndexedVertices) -> call dual-pass cave"
+    },
+    {
+      "va": "0x24ed63",
+      "orig_sha1": "8f8963b20879320ee06445953df1eb05c40c858f",
+      "new": "e838130500833dd8e13600000f84c5000000833dd4e13600000f84b80000005589e583ec0c8d45fc506a08ff15a4dc750083c4088d45f8506a1dff15a4dc750083c4088d45f4506a1eff15a4dc750083c4086a076a1dff15a0dc750083c40868800000006a1eff15a0dc750083c408ff7510ff750cff7508e8901f050083c40c6a026a1dff15a0dc750083c4086a006a08ff15a0dc750083c408ff7510ff750cff7508e8651f050083c40cff75fc6a08ff15a0dc750083c408ff75f86a1dff15a0dc750083c408ff75f46a1eff15a0dc750083c408c9c3e9311f0500",
+      "note": "dual pass: GEQUAL 128 with Z, then LESS 128 without Z write, if alpha test and blend are on"
+    }
+  ]
+}

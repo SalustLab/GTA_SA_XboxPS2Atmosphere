@@ -1,0 +1,20 @@
+{
+  "xbe_sha1": "f0ed7d693c5b9b579ffef38cf40ae0efae6a71d3",
+  "name": "P1 ColourFilter PS2 formula (k=1.0, S=256/256) + Xbox blur pass off",
+  "patches": [
+    {
+      "va": "0x24ef24",
+      "orig_sha1": "3fd22eb8c305637a29d7f1336b9fe19210321b96",
+      "len": 300,
+      "new": "5589e553565731db4331f68b3de0de7500536a09ffd7566a0effd7566a06ffd7566a08ffd7ff35884b5f0053ffd7536a0cffd76a026a0affd76a016a0bffd783c440c70558bc360005000000810de0e23600000800008d7508b2ffe8570000006a056a0affd76a026a0bffd783c4108d750c8a550fe83d000000c70558bc360004000000810de0e23600000800006a026a09ffd7536a06ffd7536a08ffd76a0053ffd76a056a0affd76a066a0bffd783c4305f5e5b5dc30fb6d2b903000000c1e2080fb60669c0000100000580000000c1e80809c246e2e7891588735c008915a4735c008915c0735c008915dc735c006a06688ce83c006a046878735c006a03ff15f4de750083c414c3cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "note": "full rewrite of CPostEffects::ColourFilter 0x24F007-0x24F132"
+    },
+    {
+      "va": "0x3ce80d",
+      "orig_sha1": "bf8b4530d8d246dd74ac53a13471bba17941dff7",
+      "len": 1,
+      "new": "00",
+      "note": "disable the Xbox blur pass 0x24ECAA (re-adds the pre-filter frame)"
+    }
+  ]
+}

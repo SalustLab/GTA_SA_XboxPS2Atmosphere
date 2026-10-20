@@ -1,5 +1,5 @@
-PS2 Atmosphere v1.2 for GTA San Andreas (Xbox, USA) - quick install
-=====================================================================
+PS2 Atmosphere v1.3 for GTA San Andreas (Xbox, USA / Europe) - quick install
+==============================================================================
 
 1. Find your version
    Rev 1 (Platinum Hits / The Trilogy, title ID 545400A3):
@@ -8,14 +8,21 @@ PS2 Atmosphere v1.2 for GTA San Andreas (Xbox, USA) - quick install
    Rev 0 (original release, title ID 54540082):
           default.xbe SHA1 1CEAE5BE753B3675CE8C5C79D7F496DFC0AD597D
           ISO name: Grand Theft Auto - San Andreas (USA) (En,Es).iso
+   Europe Rev 1 (title ID 545400A4):
+          default.xbe SHA1 F0ED7D693C5B9B579FFEF38CF40AE0EFAE6A71D3
+          ISO name: Grand Theft Auto - San Andreas (Europe) (En,Fr,De,Es,It) (Rev 1).iso
+   Europe Rev 0 (original release, title ID 54540086):
+          default.xbe SHA1 7A424B08E79A4FEBA39EC8ACF2168C6C94BC0B5A
+          ISO name: Grand Theft Auto - San Andreas (Europe) (En,Fr,De,Es,It).iso
    Not sure? Try one folder's patch: the wrong one stops with
    "checksum mismatch" and changes nothing.
 
-2. Pick the patch from the "GTA SA (USA) Rev 1" or "GTA SA (USA) Rev 0" folder
+2. Pick the patch from your version's folder: "GTA SA (USA) Rev 1",
+   "GTA SA (USA) Rev 0", "GTA SA (Europe) Rev 1" or "GTA SA (Europe) Rev 0"
    default.xbe from a game folder  ->  default.xbe.xdelta
    Full ISO (7,825,162,240 B)      ->  iso.xdelta
    XISO (7,419,363,328 B)          ->  xiso.xdelta
-   (ISO patches are made for the Redump dumps; Rev 0 tested on its Redump image.)
+   (ISO patches are made for the Redump dumps.)
 
 3a. Easiest: an xdelta app
    - Windows: xdelta UI or Delta Patcher.
@@ -26,10 +33,11 @@ PS2 Atmosphere v1.2 for GTA San Andreas (Xbox, USA) - quick install
    Then copy the patched default.xbe into your game folder (keep the original).
 
 3b. Or with Python 3 (patches a folder or an ISO in place, makes a .bak first,
-   picks Rev 1 / Rev 0 by itself). Put xdelta3.exe next to apply_patch.py:
+   picks the version by itself). Put xdelta3.exe next to apply_patch.py:
        py apply_patch.py "E:\Games\GTA San Andreas"
        py apply_patch.py "GTA San Andreas.iso"
 
 Only default.xbe changes; stream.ini and the rest stay untouched.
 Needs a modded Xbox or xemu (the patched XBE is not retail-signed).
+The Europe patch is region-free: it runs on any console region.
 Full guide: README.md

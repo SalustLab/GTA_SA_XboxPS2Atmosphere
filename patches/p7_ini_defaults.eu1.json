@@ -1,0 +1,52 @@
+{
+  "xbe_sha1": "f0ed7d693c5b9b579ffef38cf40ae0efae6a71d3",
+  "name": "P7 PS2 stream.ini settings as XBE defaults (pe stays 8, radiosity on unless pe_bRadiosity 0)",
+  "requires": [
+    "p2_filterblur.eu1",
+    "p3_radiosity.eu1"
+  ],
+  "patches": [
+    {
+      "va": "0x157fee",
+      "orig_sha1": "bd5bbe56f376c07679870ff83cfde95279a3dd2e",
+      "len": 5,
+      "new": "9090909090",
+      "note": "pe_leftx handler: drop mov [0x3CE808], eax (keep .data 8)"
+    },
+    {
+      "va": "0x15800f",
+      "orig_sha1": "c4bbfe013bfccb9b635cd666049b1f4359e29e54",
+      "len": 5,
+      "new": "9090909090",
+      "note": "pe_rightx handler: drop mov [0x3CE80C], eax (keep .data 8)"
+    },
+    {
+      "va": "0x15802d",
+      "orig_sha1": "c27dfb664315846414a883299f5ea085efb8e7ff",
+      "len": 5,
+      "new": "9090909090",
+      "note": "pe_topy handler: drop mov [0x3CE810], eax (keep .data 8)"
+    },
+    {
+      "va": "0x15804b",
+      "orig_sha1": "fc752095073353aa6060b02264ca9db4c4006069",
+      "len": 5,
+      "new": "9090909090",
+      "note": "pe_bottomy handler: drop mov [0x3CE814], eax (keep .data 8)"
+    },
+    {
+      "va": "0x15806c",
+      "orig_sha1": "bc85c9fa1b17f3b8e24eac3432fff626f75665f0",
+      "len": 1,
+      "new": "94",
+      "note": "pe_bRadiosity handler: setne al -> sete al ([0x5F4B1C] = radiosity off)"
+    },
+    {
+      "va": "0x24cc67",
+      "orig_sha1": "8efd86fb78a56a5145ed7739dcb00c78581c5375",
+      "len": 1,
+      "new": "75",
+      "note": "radiosity guard: je skip -> jne skip (runs while [0x5F4B1C] == 0)"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "xbe_sha1": "7a424b08e79a4feba39ec8acf2168c6c94bc0b5a",
+  "name": "P2 ColourFilter PS2 formula + blur (supersedes P1; apply with P5, not with P1)",
+  "patches": [
+    {
+      "va": "0x24ed5e",
+      "orig_sha1": "8ef95dbc95a8d6f018bb3d5a4c5ba048f7fc157e",
+      "len": 5,
+      "new": "e99efcffff",
+      "note": "CPostEffects::ColourFilter -> new body in the cave"
+    },
+    {
+      "va": "0x24c9e0",
+      "orig_sha1": "44b1d2c8da51f67a45274cdd9ebdbc87c6a6ceca",
+      "len": 5,
+      "new": "9090909090",
+      "note": "Xbox blur pass call -> NOP (cave reused)"
+    },
+    {
+      "va": "0x24ea01",
+      "orig_sha1": "0d68edecb7a4ce804e90cefb84e7cde283b8502a",
+      "len": 504,
+      "new": "5589e553565731db4331f68b3da0dc7500536a09ffd7566a0effd7566a06ffd7566a08ffd7ff3548495f0053ffd7536a0cffd76a026a0affd76a016a0bffd783c440c70558ba360005000000810de0e03600000800008d7508b2ffe8fd0000006a056a0affd76a026a0bffd76a026a09ffd783c4188d750c8a550fe8fd00000083ec7057be38715c008d7c24046a1c59f3a55fa148495f008b480cc1e1048b5010c1e2045251db0528e63c00da3424d944241cd8c1d95c241cd8442438d95c2438db052ce63c00da742404d9442420d8c1d95c2420d8442474d95c2474db0530e63c00da3424d9442454d8c1d95c2454d8442470d95c2470db0534e63c00da742404d944243cd8c1d95c243cd8442458d95c24588d442408e84a00000083c478c70558ba360004000000810de0e03600000800006a026a09ffd7536a06ffd7536a08ffd76a0053ffd76a056a0affd76a066a0bffd783c4305f5e5b5dc3e81b000000b838715c006a06684ce63c006a04506a03ff15b4dc750083c414c30fb6d2b903000000c1e2080fb60669c0000100000580000000c1e80809c246e2e7891548715c00891564715c00891580715c0089159c715c00c3cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "note": "ColourFilter PS2 formula + LINEAR pass 2 at +pe/16 texels (P1 + P2)"
+    }
+  ]
+}

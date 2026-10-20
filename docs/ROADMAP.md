@@ -5,6 +5,7 @@ Ideas and open items collected after release, mostly from user feedback. Nothing
 ## Next: other USA versions
 
 - ~~**USA Rev 0.**~~ Done 2026-10-16: `default.xbe` sha1 1ceae5be… is the Redump Rev 0 image; v1.1 is ported, released as `default_rev0.xbe.xdelta` / `rev0-xiso.xdelta` / `rev0-redump-iso.xdelta` (findings "USA Rev 0 port").
+- ~~**Europe Rev 1 and Rev 0.**~~ Done 2026-10-20: ported with the same map (`--eu1` / `--eu0`), release v1.3 (findings "Europe Rev 1 / Rev 0 port"). Region-free (P8). Tested in xemu and on real hardware, user sign-off ✅.
 - **Any other USA revisions.** Check the Redump list. A new close build can reuse `tools/rev0_map.py` (it maps Rev 1 VAs to another build by code alignment).
 
 ## Investigate
