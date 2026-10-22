@@ -275,4 +275,8 @@ This is a fan project. It is not affiliated with or endorsed by Rockstar Games o
 
 The repository and releases contain **no game code or assets**: the patch is a diff that only applies to your own legally dumped copy, and every tool refuses anything else. Screenshots are shown for comparison. The code in this repository is released under the [MIT License](LICENSE).
 
+## Support
+
+If this patch brought the PS2 look back for you, you can [buy me a coffee on Ko-fi](https://ko-fi.com/salustlab).
+
 <p align="center"><sub>Made solo by <b>SalustLab</b>, one patch at a time.</sub></p>
