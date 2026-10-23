@@ -10,23 +10,25 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/SalustLab/GTA_SA_XboxPS2Atmosphere/releases/latest"><img src="https://img.shields.io/badge/download-v1.3-FFC440?style=for-the-badge&logo=github&logoColor=black&labelColor=1a1a1a" alt="Download v1.3"></a>
-  <img src="https://img.shields.io/badge/platform-original%20Xbox-107C10?style=for-the-badge&logo=xbox&logoColor=white&labelColor=1a1a1a" alt="Platform: original Xbox">
-  <img src="https://img.shields.io/badge/game-GTA%20SA%20%C2%B7%20USA%20%2F%20Europe%20Rev%200%20%2F%20Rev%201-F28C28?style=for-the-badge&labelColor=1a1a1a" alt="Game: GTA San Andreas USA / Europe Rev 0 / Rev 1">
-  <br>
-  <img src="https://img.shields.io/badge/runs%20on-xemu%20%7C%20softmod-4c8dff?style=for-the-badge&labelColor=1a1a1a" alt="Runs on xemu or a softmodded console">
-  <img src="https://img.shields.io/badge/patch-1.4%20KB%20xdelta-9b59b6?style=for-the-badge&labelColor=1a1a1a" alt="Patch: 1.4 KB xdelta">
-  <img src="https://img.shields.io/badge/game%20files-none%20included-2ea44f?style=for-the-badge&labelColor=1a1a1a" alt="No game files included">
-  <img src="https://img.shields.io/badge/license-MIT-lightgrey?style=for-the-badge&labelColor=1a1a1a" alt="License: MIT">
+  <a href="https://github.com/SalustLab/GTA_SA_XboxPS2Atmosphere/releases/latest"><img src="https://img.shields.io/github/v/release/SalustLab/GTA_SA_XboxPS2Atmosphere?label=release&color=FFC440" alt="Latest release"></a>
+  <img src="https://img.shields.io/badge/platform-original%20Xbox-107C10?logo=xbox&logoColor=white" alt="Platform: original Xbox">
+  <img src="https://img.shields.io/badge/game-GTA%20SA%20%C2%B7%20USA%20%2F%20Europe%20Rev%200%20%2F%20Rev%201-F28C28" alt="Game: GTA San Andreas USA / Europe Rev 0 / Rev 1">
+  <img src="https://img.shields.io/badge/runs%20on-xemu%20%7C%20softmod-4c8dff" alt="Runs on xemu or a softmodded console">
+  <img src="https://img.shields.io/badge/patch-1.4%20KB%20xdelta-9b59b6" alt="Patch: 1.4 KB xdelta">
+  <img src="https://img.shields.io/badge/game%20files-none%20included-2ea44f" alt="No game files included">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/SalustLab/GTA_SA_XboxPS2Atmosphere?color=blue" alt="MIT license"></a>
+  <a href="https://ko-fi.com/salustlab"><img src="https://img.shields.io/badge/Ko--fi-support-ff5e5b?logo=ko-fi&logoColor=white" alt="Support on Ko-fi"></a>
 </p>
 
 <p align="center">
+  <b><a href="https://github.com/SalustLab/GTA_SA_XboxPS2Atmosphere/releases/latest">Download</a></b> ·
   <a href="#see-it">See it</a> ·
   <a href="#install">Install</a> ·
   <a href="#compatibility">Compatibility</a> ·
   <a href="#how-it-works">How it works</a> ·
   <a href="#for-tinkerers">For tinkerers</a> ·
-  <a href="#credits">Credits</a>
+  <a href="#credits">Credits</a> ·
+  <a href="#support">Support</a>
 </p>
 
 ---
@@ -278,5 +280,7 @@ The repository and releases contain **no game code or assets**: the patch is a d
 ## Support
 
 If this patch brought the PS2 look back for you, you can [buy me a coffee on Ko-fi](https://ko-fi.com/salustlab).
+
+<a href="https://ko-fi.com/salustlab"><img src="https://ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi"></a>
 
 <p align="center"><sub>Made solo by <b>SalustLab</b>, one patch at a time.</sub></p>
